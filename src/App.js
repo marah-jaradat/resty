@@ -8,6 +8,12 @@ import History from "./components/history";
 import Results from "./components/results";
 
 function App() {
+  useEffect(() => {
+    if (!JSON.parse(localStorage.getItem("RESTyHistory"))) {
+      localStorage.setItem("RESTyHistory", JSON.stringify([]));
+    }
+  }, []);
+
   let [resultsData, setRestultsData] = useState("");
   let localData = JSON.parse(localStorage.getItem("History"));
   let [renderedData, setRenderedData] = useState(localData);

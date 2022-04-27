@@ -60,6 +60,8 @@ const TextArea = styled.textarea`
 function Form(props) {
   const endPointInputRef = useRef();
   const methodsDivRef = useRef();
+  const bodyDivRef = useRef();
+  let methodHandler;
 
   const submitHandler = (event) => {
     event.preventDefault();
