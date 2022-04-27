@@ -1,142 +1,98 @@
-import React from "react";
+import styled from "styled-components";
+import { useRef } from "react";
+const FormData = styled.form`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+  height: 25vh;
+`;
 
-class Form extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      method: "",
-      url: "",
-    };
+const StylingDiv = styled.div`
+  display: flex;
+  width: 100vw;
+  justify-content: center;
+`;
+
+const LinkInput = styled.input`
+  background: #f5f5f5;
+  border: none;
+  border-bottom: 1px solid #000;
+  font-size: 1.1rem;
+  margin: 0;
+  outline: none;
+  padding: 0.25rem;
+  transition: all 0.4s ease-out;
+  width: 80%;
+`;
+
+const Button = styled.button`
+  text-align: center;
+  padding: 1px 0.7rem;
+  border-width: 1px;
+  border-radius: 4px;
+  margin-left: 5vw;
+  background-color: #efefef;
+`;
+
+const Keys = styled.span`
+  background: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 0.5rem;
+  padding: 0.4rem 1rem;
+  line-height: 2rem;
+  height: 1.75rem;
+  &.active {
+    background: #b5b3b3;
   }
+  &:hover {
+    background: #b5b3b3;
+  }
+`;
 
-  setMethod = (e) => this.setState({ methodPlaceholder: e.target.value });
-  setUrl = (e) => this.setState({ urlPlaceholder: e.target.value });
+const TextArea = styled.textarea`
+  width: 60%;
+  height: 3rem;
+  background: #ffffff;
+`;
+function Form(props) {
+  const endPointInputRef = useRef();
+  const methodsDivRef = useRef();
 
-  showUrlAndMethod = (e) => {
-    e.preventDefault();
-    this.setState({ url: this.state.urlPlaceholder });
-    this.setState({ method: this.state.methodPlaceholder });
+  const submitHandler = (event) => {
+    event.preventDefault();
+    props.getFormData({
+      endPoint: endPointInputRef.current.value,
+      method: "GET",
+    });
   };
-
-  render() {
-    return (
-      <div>
-        <div class="p-4">
-          <form data-form>
-            <div class="input-group mb-4">
-              <select class="form-select flex-grow-0 w-auto" data-method>
-                <option value="GET" selected>
-                  GET
-                </option>
-                <option value="POST">POST</option>
-                <option value="PUT">PUT</option>
-                <option value="DELETE">DELETE</option>
-              </select>
-              <input
-                data-url
-                required
-                class="form-control"
-                type="url"
-                placeholder="https://example.com"
-              />
-              <button type="submit" class="btn btn-primary">
-                Send
-              </button>
-            </div>
-            <ul class="nav nav-tabs" role="tablist">
-              <li class="nav-item" role="presentation">
-                <button
-                  class="nav-link active"
-                  id="query-params-tab"
-                  data-bs-toggle="tab"
-                  data-bs-target="#query-params"
-                  type="button"
-                  role="tab"
-                  aria-controls="query-params"
-                  aria-selected="true"
-                >
-                  Query Params
-                </button>
-              </li>
-              <li class="nav-item" role="presentation">
-                <button
-                  class="nav-link"
-                  id="request-headers-tab"
-                  data-bs-toggle="tab"
-                  data-bs-target="#request-headers"
-                  type="button"
-                  role="tab"
-                  aria-controls="request-headers"
-                  aria-selected="false"
-                >
-                  Headers
-                </button>
-              </li>
-              <li class="nav-item" role="presentation">
-                <button
-                  class="nav-link"
-                  id="json-tab"
-                  data-bs-toggle="tab"
-                  data-bs-target="#json"
-                  type="button"
-                  role="tab"
-                  aria-controls="json"
-                  aria-selected="false"
-                >
-                  JSON
-                </button>
-              </li>
-            </ul>
-
-            <div class="tab-content p-3 border-top-0 border">
-              <div
-                class="tab-pane fade show active"
-                id="query-params"
-                role="tabpanel"
-                aria-labelledby="query-params-tab"
-              >
-                <div data-query-params></div>
-                <button
-                  data-add-query-param-btn
-                  class="mt-2 btn btn-outline-success"
-                  type="button"
-                >
-                  Add
-                </button>
-              </div>
-              <div
-                class="tab-pane fade"
-                id="request-headers"
-                role="tabpanel"
-                aria-labelledby="request-headers-tab"
-              >
-                <div data-request-headers></div>
-                <button
-                  data-add-request-header-btn
-                  class="mt-2 btn btn-outline-success"
-                  type="button"
-                >
-                  Add
-                </button>
-              </div>
-              <div
-                class="tab-pane fade"
-                id="json"
-                role="tabpanel"
-                aria-labelledby="json-tab"
-              >
-                <div
-                  data-json-request-body
-                  class="overflow-auto"
-                  style="max-height: 200px;"
-                ></div>
-              </div>
-            </div>
-          </form>
+  let keysArray = [
+    <Keys key="1">Get</Keys>,
+    <Keys key="2">Post</Keys>,
+    <Keys key="3">Put</Keys>,
+    <Keys key="4">Delete</Keys>,
+  ];
+  const classesHandler = (e) => {
+    const children = [].slice.call(methodsDivRef.current.children);
+    children.forEach((ele) => ele.classList.remove("active"));
+    e.target.classList.add("active");
+  };
+  return (
+    <FormData onSubmit={submitHandler}>
+      <StylingDiv>
+        <LinkInput ref={endPointInputRef}></LinkInput>
+        <Button type="submit">Go</Button>
+      </StylingDiv>
+      <StylingDiv>
+        <div ref={methodsDivRef} onClick={classesHandler}>
+          {keysArray}
         </div>
-      </div>
-    );
-  }
+        <TextArea></TextArea>
+      </StylingDiv>
+    </FormData>
+  );
 }
 
 export default Form;

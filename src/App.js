@@ -8,15 +8,27 @@ import History from "./components/history";
 import Results from "./components/results";
 
 function App() {
+  let [resultsData, setRestultsData] = useState("");
+  let localData = JSON.parse(localStorage.getItem("History"));
+  let [renderedData, setRenderedData] = useState(localData);
+
+  const getFormDataHandler = (data) => {
+    localData ? (localData = localData) : (localData = []);
+    localStorage.setItem("History", JSON.stringify([...localData, data]));
+    setRestultsData(data);
+    setRenderedData(JSON.parse(localStorage.getItem("History")));
+  };
   return (
-    <div className="App">
-      <Header />
-      <main>
-        <Form />
-      </main>
-      <History />
-      <Results />
-    </div>
+    <>
+      <Header></Header>
+      <Form getFormData={getFormDataHandler}></Form>
+      <div style={{ display: "flex" }}>
+        <History
+          getHistoryData={renderedData == null ? [] : renderedData}
+        ></History>
+        <Results getResultsData={resultsData}></Results>
+      </div>
+    </>
   );
 }
 
