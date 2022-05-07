@@ -1,14 +1,62 @@
 import React from "react";
 import "./results.scss";
+import JSONPretty from "react-json-pretty";
 
 function Results(props) {
-  return (
-    <section>
-      <div className="box">
-        <pre>{props.data ? JSON.stringify(props.data, undefined) : null}</pre>
+  if (!props.loading) {
+    return (
+      <div className="result">
+        <div className="api">
+          {
+            <p
+              className="method"
+              style={
+                props.method === "POST"
+                  ? { backgroundColor: "green" }
+                  : props.method === "DELETE"
+                  ? { backgroundColor: "red" }
+                  : props.method === "PUT"
+                  ? { backgroundColor: "yellow" }
+                  : {}
+              }
+            >
+              {props.method}
+            </p>
+          }
+          <p>{props.url}</p>
+        </div>
+        <div className="body">
+          <JSONPretty data={props.header} />
+          <JSONPretty data={props.data} />
+        </div>
       </div>
-    </section>
-  );
+    );
+  } else {
+    return (
+      <div className="result">
+        <div className="api">
+          <p
+            className="method"
+            style={
+              props.method === "POST"
+                ? { backgroundColor: "green" }
+                : props.method === "DELETE"
+                ? { backgroundColor: "red" }
+                : props.method === "PUT"
+                ? { backgroundColor: "yellow" }
+                : {}
+            }
+          >
+            {props.method}
+          </p>
+          <p>{props.url}</p>
+        </div>
+        <div className="body">
+          <p>Loading...</p>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default Results;

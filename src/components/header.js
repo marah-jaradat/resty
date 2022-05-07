@@ -1,4 +1,5 @@
 import React from "react";
+import { link } from "react-dom";
 import "./header.scss";
 function Header() {
   return (
@@ -6,10 +7,16 @@ function Header() {
       <Header className="header">
         <H1>RESTy App</H1>
       </Header>
-      <NavBar>
-        <NavItem>Home</NavItem>
-        <NavItem>History</NavItem>
-        <NavItem>Help</NavItem>
+      <NavBar className="nav-bar">
+        <NavItem>
+          <link to="/">Home</link>
+        </NavItem>
+        <NavItem>
+          <link to="/History">History</link>
+        </NavItem>
+        <NavItem>
+          <link to="/Help">Help</link>
+        </NavItem>
       </NavBar>
     </>
   );
