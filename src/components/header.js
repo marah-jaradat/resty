@@ -1,10 +1,10 @@
 import React from "react";
-
+import "./header.scss";
 function Header() {
   return (
     <>
-      <Header className="App-header">
-        <H1>RESTy</H1>
+      <Header className="header">
+        <H1>RESTy App</H1>
       </Header>
       <NavBar>
         <NavItem>Home</NavItem>
