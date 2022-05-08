@@ -11,7 +11,7 @@ function Form(props) {
     let elems = document.querySelectorAll("span");
     elems.forEach((elem) => (elem.style.backgroundColor = "white"));
     document.getElementById(`${e.target.id}`).style.backgroundColor =
-      "rgb(175, 176, 182)";
+      "rgb(170, 175, 179)";
     setMethod(e.target.id);
   };
   const handelUrl = (e) => {
