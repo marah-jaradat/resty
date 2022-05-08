@@ -30,7 +30,7 @@ function App() {
       <Form getFormData={getFormDataHandler}></Form>
       <div style={{ display: "flex" }}>
         <History
-          getHistoryData={renderedData == null ? [] : renderedData}
+        // getHistoryData={renderedData == null ? [] : renderedData}
         ></History>
         <Results getResultsData={resultsData}></Results>
       </div>
