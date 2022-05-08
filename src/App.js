@@ -10,6 +10,24 @@ import History from "./components/history";
 import Results from "./components/results";
 
 function App() {
+  const [data, setData] = useState(null);
+  const [requestParams, setRequest] = useState({});
+  const handleApiCall = async (requestParams) => {
+    setRequest(requestParams);
+    let methodCall = requestParams.method.toLowerCase();
+    const response = await axios[methodCall](
+      requestParams.url,
+      requestParams.body ? requestParams.body : null
+    );
+    const result = {
+      headers: {
+        headers: response.headers,
+        results: response.data,
+      },
+    };
+
+    setData(result);
+  };
   return (
     <React.Fragment>
       <Header></Header>
@@ -18,11 +36,12 @@ function App() {
         <Route path="History" element={<History />} />
         <Route path="Help" element={<Help />} />
       </Routes>
-      {/* <div>Request Method: {this.state.requestParams.method}</div>
-      <div>URL : {this.state.requestParams.url}</div>
-      <Form getFormHandler={this.getFormData} />
-      <div style={{ display: "flex" }}></div>
-      <Results data={this.state.data} /> */}
+      <Form handleApiCall={handleApiCall} />
+      <Results
+        data={data}
+        url={requestParams.url}
+        method={requestParams.method}
+      />
       <Footer />
     </React.Fragment>
   );
